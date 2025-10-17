@@ -6,8 +6,8 @@ require_once '../partials/header.php';
 // For now, we will simulate a logged-in owner.
 // In a real login system, this would be set upon successful login.
 // !! IMPORTANT: Remove this line once you build the login page.
-$_SESSION['user_role_id'] = 1;
-$_SESSION['user_role_name'] = 'Owner';
+// $_SESSION['user_role_id'] = 1;
+// $_SESSION['user_role_name'] = 'Owner';
 // --------------------
 
 // Check if the user is logged in and is an Owner.

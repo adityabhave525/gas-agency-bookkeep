@@ -9,8 +9,8 @@ CREATE TABLE roles (
 -- Table to store user information
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
-    username VARCHAR(50) NOT NULL UNIQUE,
+    full_name VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL, -- To be stored as a hash
     role_id INT,
     is_active BOOLEAN DEFAULT 1,
