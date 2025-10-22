@@ -33,10 +33,19 @@ if (session_status() === PHP_SESSION_NONE) {
                             </span>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/owner/dashboard.php">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="/owner/create_account.php">Create Account</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/owner/vehicles.php">Vehicles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/owner/inventory.php">Inventory</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/owner/cylinder_types.php">Cylinders</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link btn btn-danger text-white px-3" href="/owner/logout.php">Logout</a>
