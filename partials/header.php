@@ -1,3 +1,8 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,16 +24,31 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <!-- We will add more links here later, like a logout button -->
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/owner/create_account.php">Create Account</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/owner/login.php">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/owner/vehicles.php">Vehicles</a>
-                    </li>
+
+                    <?php if (isset($_SESSION['user_role_name']) && $_SESSION['user_role_name'] === 'Owner'): ?>
+
+                        <li class="nav-item">
+                            <span class="navbar-text text-white me-3">
+                                Welcome, <?php echo htmlspecialchars($_SESSION['user_full_name']); ?>
+                            </span>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/owner/create_account.php">Create Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/owner/vehicles.php">Vehicles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-danger text-white px-3" href="/owner/logout.php">Logout</a>
+                        </li>
+
+                    <?php else: ?>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/owner/login.php">Login</a>
+                        </li>
+
+                    <?php endif; ?>
                 </ul>
             </div>
         </div>
