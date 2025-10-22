@@ -53,6 +53,7 @@ CREATE TABLE inventory (
 CREATE TABLE vehicles (
     vehicle_id INT AUTO_INCREMENT PRIMARY KEY,
     vehicle_number VARCHAR(50) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     is_active BOOLEAN DEFAULT 1
 );
 

@@ -1,6 +1,3 @@
-<?php
-require_once __DIR__ . '/../db.php';
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +22,12 @@ require_once __DIR__ . '/../db.php';
                     <!-- We will add more links here later, like a logout button -->
                     <li class="nav-item">
                         <a class="nav-link active" href="/owner/create_account.php">Create Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/owner/login.php">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/owner/vehicles.php">Vehicles</a>
                     </li>
                 </ul>
             </div>

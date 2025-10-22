@@ -1,5 +1,6 @@
 <?php
 // Include the header partial
+require_once '../db.php';
 require_once '../partials/header.php';
 
 // --- ACCESS CONTROL ---
