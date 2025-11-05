@@ -69,16 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     }
 
-    // ACTION 2: Godown Keeper Approval (Simulation)
-    if ($action === 'approve_pickup' && isset($_POST['transaction_id'])) {
-        $simulated_keeper_id = 999;
-        $stmt_approve = $conn->prepare("UPDATE daily_transactions SET approved_by_keeper_id = ? WHERE transaction_id = ? AND delivery_person_id = ?");
-        $stmt_approve->bind_param("iii", $simulated_keeper_id, $_POST['transaction_id'], $user_id);
-        $stmt_approve->execute();
-        header("Location: daily_log.php");
-        exit();
-    }
-
     // ACTION 3: Submit Final Return (NEWLY ADDED LOGIC)
     if ($action === 'submit_return' && isset($_POST['transaction_id'])) {
         $returns = $_POST['returns'] ?? [];
@@ -169,13 +159,69 @@ require_once '../partials/delivery_header.php';
     <?php if ($message): ?><div class="alert alert-<?php echo $message_type; ?>"><?php echo $message; ?></div><?php endif; ?>
 
     <!-- UI Sections -->
-    <div id="pickupSection" style="display: none;"><!-- Same as before --></div>
+    <div id="pickupSection" style="display: none;">
+        <form id="pickupForm" action="daily_log.php" method="POST">
+            <input type="hidden" name="action" value="submit_pickup">
+            <input type="hidden" name="pickup_list_json" id="pickupListJsonInput">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Cylinder Pickup</h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="vehicleSelect" class="form-label">Select Vehicle</label>
+                            <select id="vehicleSelect" name="vehicle_id" class="form-select" required>
+                                <option selected disabled value="">Choose truck...</option>
+                                <?php mysqli_data_seek($vehicles_result, 0); // Reset pointer for this loop 
+                                ?>
+                                <?php while ($v = $vehicles_result->fetch_assoc()): ?>
+                                    <option value="<?php echo $v['vehicle_id']; ?>"><?php echo htmlspecialchars($v['vehicle_number']); ?></option>
+                                <?php endwhile; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <label class="form-label">Add Cylinder</label>
+                            <div class="input-group">
+                                <select id="cylinderTypeSelect" class="form-select">
+                                    <option selected disabled>Select type...</option>
+                                    <?php foreach ($available_cylinders as $cyl): ?>
+                                        <option value="<?php echo $cyl['cylinder_type_id']; ?>"><?php echo htmlspecialchars($cyl['type_name']); ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <input id="pickupFullInput" type="number" class="form-control" placeholder="Full (F)" min="0">
+                                <input id="pickupEmptyInput" type="number" class="form-control" placeholder="Empty (M)" min="0">
+                                <button id="addCylinderBtn" class="btn btn-primary" type="button"><i class="bi bi-plus-lg"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header"><strong>Pickup List</strong></div>
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Pickup (F)</th>
+                                    <th>Pickup (M)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pickupTableBody"></tbody>
+                        </table>
+                    </div>
+                    <div id="pickupListEmpty" class="text-center p-4 text-muted">Your pickup list is empty.</div>
+                </div>
+                <div class="card-footer text-end"><button type="submit" id="submitForApprovalBtn" class="btn btn-success" disabled>Submit for Approval</button></div>
+            </div>
+        </form>
+    </div>
     <div id="approvalSection" style="display: none;">
         <div class="card bg-light border-warning text-center">
             <div class="card-body">
                 <h5 class="card-title text-warning"><i class="bi bi-hourglass-split"></i> Awaiting Approval</h5>
-                <p>Ask the Godown Keeper to verify and approve your pickup.</p>
-                <form action="daily_log.php" method="POST"><input type="hidden" name="action" value="approve_pickup"><input type="hidden" name="transaction_id" value="<?php echo $transaction['transaction_id'] ?? ''; ?>"><button type="submit" class="btn btn-warning btn-lg mt-2">Simulate Godown Keeper Approval</button></form>
+                <p class="mb-0">Your pickup request has been submitted. Please ask the Godown Keeper to verify and approve it.</p>
             </div>
         </div>
     </div>

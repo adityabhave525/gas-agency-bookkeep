@@ -34,7 +34,9 @@ if (session_status() === PHP_SESSION_NONE) {
                         <li class="nav-item">
                             <a class="nav-link" href="/keeper/dashboard.php">Dashboard</a>
                         </li>
-                        <!-- Future links like 'Approve Pickups' or 'Take Attendance' will go here -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="/keeper/approve_pickup.php">Approve Pickups</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link btn btn-danger text-white px-3" href="/logout.php">Logout</a>
                         </li>
