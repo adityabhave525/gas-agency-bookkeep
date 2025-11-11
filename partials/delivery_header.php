@@ -41,6 +41,9 @@ if (session_status() === PHP_SESSION_NONE) {
                             <a class="nav-link" href="/delivery/expenses.php">Daily Expenses</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="/delivery/profile.php">My Profile</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link btn btn-danger text-white px-3" href="/logout.php">Logout</a>
                         </li>
                     <?php endif; ?>

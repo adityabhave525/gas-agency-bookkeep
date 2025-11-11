@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         // Prepare a secure statement to fetch user and role info
         $stmt = $conn->prepare(
-            "SELECT u.user_id, u.full_name, u.password, r.role_id, r.role_name 
+            "SELECT u.user_id, u.username, u.full_name, u.password, r.role_id, r.role_name 
              FROM users u 
              JOIN roles r ON u.role_id = r.role_id 
              WHERE u.username = ?"
@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['user_full_name'] = $user['full_name'];
                     $_SESSION['user_role_id'] = $user['role_id'];
                     $_SESSION['user_role_name'] = $user['role_name'];
+                    $_SESSION['username'] = $user['username'];
 
                     // Redirect to the delivery person's main page
                     header("Location: dashboard.php");
